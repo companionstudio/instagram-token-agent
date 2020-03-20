@@ -1,0 +1,16 @@
+%h1 Instagram Token Agent
+
+%h2
+  %span.success-marker ✓
+  The token agent is set up and ready to provide tokens for
+  %code @#{@client.username}.
+
+%p To use this token paste the following snippet into your web page:
+
+%pre.snippet
+  %code
+    &= "<script src='https://#{request.host}/token.js'></script>"
+
+
+
+%p You can also access tokens in JSON format at: https://#{request.host}/token.json

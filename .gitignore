@@ -1,0 +1,6 @@
+.bundle/*
+.sass-cache/*
+.DS_Store
+tmp/*
+config/database.yml
+*.db

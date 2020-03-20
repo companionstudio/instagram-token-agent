@@ -1,0 +1,36 @@
+%h1 Instagram Token Agent
+
+%p Welcome to the token agent application. You're reading this message because you need to finish configuring your agent.
+
+%article.step
+  %h2#you-will-need You will need
+
+  %ul.instructions
+    %li A Facebook Developer account
+    %li An Instagram account
+    %li
+      A Heroku account to host the agent.
+      %span.note You probably have this already if you're reading this message!
+
+%article.step
+  %h2#setting-up Setting up
+
+  %ol.instructions
+    %li
+      Log into your Facebook account at
+      %a{href: 'https://developers.facebook.com'} developers.facebook.com.
+    %li
+      Create an app in your App Dashboard,
+      %a{href: 'https://developers.facebook.com/docs/instagram-basic-display-api/getting-started'} as shown in this tutorial.
+    %li
+      Log into your
+      %a{href: 'https://dashboard.heroku.com'} Heroku Console.
+    %li Go to your new application, 'Settings'.
+    %li
+      Under configuration values, find INSTAGRAM_TOKEN. The value to replace is
+      %code #{settings.default_starting_token}.
+    %li Replace this with the token value from Facebook in step 2.
+    %li Click save to apply the setting and restart your app.
+    %li Reload this page to see a success message!
+
+  %p You can see these instructions at any time by visiting '/help'.
