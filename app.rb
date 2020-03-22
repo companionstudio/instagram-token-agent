@@ -17,8 +17,6 @@ class App < Sinatra::Base
     require "better_errors"
     use BetterErrors::Middleware
     BetterErrors.application_root = __dir__
-
-
   end
 
   configure do
@@ -37,6 +35,9 @@ class App < Sinatra::Base
     set :refresh_endpoint,  'https://graph.instagram.com/refresh_access_token'  # The endpoint to hit to extend the token
     set :user_endpoint,     'https://graph.instagram.com/me'                    # The endpoint to hit to fetch user profile
     set :media_endpoint,    'https://graph.instagram.com/me/media'              # The endpoint to hit to fetch the user's media
+
+    enable :refresh_webhook if ENV['TEMPORIZE_URL']                             # Check if Temporize is configured
+    set :webhook_secret, ENV['WEBHOOK_SECRET']                                  # The secret value used to sign external, incoming requests
   end
 
   before do
@@ -94,6 +95,23 @@ class App < Sinatra::Base
       end
     end
   end
+
+  # This endpoint is used by the Temporize scheduling service to trigger a refresh externally
+  if settings.refresh_webhook?
+    post "/hooks/refresh/:signature" do
+
+
+      client = InstagramTokenAgent::Client.new(app)
+      if client.check_signature? params[:signature]
+        client.refresh
+      else
+        halt 403
+      end
+
+
+    end
+  end
+
 
   not_found do
     haml(:not_found, layout: :'layouts/default')
