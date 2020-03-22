@@ -2,7 +2,7 @@
   "name": "Instagram Token Agent",
   "description": "A service to keep your Instagram Basic Display API token fresh.",
   "repository": "https://github.com/companionstudio/instagram-token-agent",
-  "logo": "https://raw.githubusercontent.com/companionstudio/instagram-token-agent/master/public/logo.svg",
+  "logo": "https://raw.githubusercontent.com/companionstudio/instagram-token-agent/master/public/logo.svg?sanitize=true",
   "keywords": ["instagram", "token", "basic-display-api", "instafeed"],
   "addons": [
     "scheduler:standard",
@@ -14,6 +14,9 @@
       "value": "replace_me",
       "description": "The initial Instagram token value, sourced from Facebook's app dashboard."
     }
+  },
+  "scripts": {
+    "postdeploy": "bundle exec rake setup"
   },
   "success_url": "/"
 }
