@@ -17,10 +17,15 @@ class App < Sinatra::Base
     require "better_errors"
     use BetterErrors::Middleware
     BetterErrors.application_root = __dir__
+
+
   end
 
   configure do
     enable :cross_origin
+
+    set :show_exceptions, false
+    set :raise_errors, true
 
     set :allow_origin,      ENV['ALLOWED_DOMAINS'] || :any                      # Check for a whitelist of domains, otherwise allow anything
     set :allow_methods,     [:get, :options]                                    # Only allow GETs and OPTION requests
@@ -88,6 +93,14 @@ class App < Sinatra::Base
         InstagramTokenAgent::Store.value
       end
     end
+  end
+
+  not_found do
+    haml(:not_found, layout: :'layouts/default')
+  end
+
+  error do
+    haml(:error, layout: :'layouts/default')
   end
 
   private
