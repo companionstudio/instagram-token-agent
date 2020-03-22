@@ -1,6 +1,7 @@
 :root {
   --highlight-color: rgb(192, 218, 80);
   --highlight-text: rgb(86, 156, 25);
+  --error-text: rgb(166, 27, 27);
 }
 
 * {
@@ -58,6 +59,10 @@ code {
   font-family: monospace;
 }
 
+.error-message {
+  color: #666;
+}
+
 pre.snippet {
   background: #F4F4F4;
   padding: 0.5rem;
@@ -90,8 +95,8 @@ span.note {
   display: block;
 }
 
-.success-marker {
-  background: var(--highlight-text);
+.success-marker,
+.failure-marker {
   border-radius: 50%;
   color: #FFF;
   display: inline-block;
@@ -101,4 +106,12 @@ span.note {
   margin-right: 0.65rem;
   text-align: center;
   width: 2rem;
+}
+
+.success-marker {
+  background: var(--highlight-text);
+}
+
+.failure-marker {
+  background: var(--error-text);
 }
