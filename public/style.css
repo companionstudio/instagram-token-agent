@@ -41,6 +41,12 @@ body {
   font-size: 0.85rem;
   margin-top: 2rem;
   padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.body-liner-foot .version {
+  color: #808080;
 }
 
 h1, h2, h3 {
@@ -59,7 +65,8 @@ h2 {
 
 h3 {
   border-top: 2px dotted var(--highlight-color);
-  padding-top: 0.5rem;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
   font-size: 1.1rem;
 }
 
@@ -108,28 +115,6 @@ span.note {
   font-size: 0.9rem;
   color: #777;
   display: block;
-}
-
-.success-marker,
-.failure-marker {
-  border-radius: 50%;
-  color: #FFF;
-  display: inline-block;
-  font-size: 0.85rem;
-  height: 1.5rem;
-  line-height: 1.5rem;
-  margin-right: 0.25rem;
-  text-align: center;
-  width: 1.5rem;
-  vertical-align: 0.2em;
-}
-
-.success-marker {
-  background: var(--success-text);
-}
-
-.failure-marker {
-  background: var(--error-text);
 }
 
 .credit {

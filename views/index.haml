@@ -1,7 +1,6 @@
 %h1 Instagram Token Agent
 
 %h2
-  %span.success-marker ✓
   The token agent is set up and ready to provide tokens for
   %code @#{@client.username}.
 
@@ -14,7 +13,7 @@
 
 %pre.snippet
   %code
-    &= "<script src='https://#{request.host}/token.js'></script>"
+    &= "<script src='https://#{request.host_with_port}/token.js'></script>"
 
 %p
   Your API token will be available in a global constant called
@@ -22,4 +21,4 @@
 
 %p
   You can also access the token in JSON format at:
-  %a{href: "#{request.url}/token.json"} #{request.url}/token.json
+  %a{href: "#{request.url}token.json"} #{request.url}token.json
