@@ -20,7 +20,7 @@ module InstagramTokenAgent
       # If we're working with webhooks, schedule a job for the period [token_expiry_buffer] before expiry.
       if config.refresh_webhook?
         scheduler = Temporize::Scheduler.new(config)
-        scheduler.schedule((Time.now + response['expires_in'] - settings.token_expiry_buffer), signature)
+        scheduler.schedule((Time.now + response['expires_in'] - config.token_expiry_buffer), signature)
       end
     end
 
