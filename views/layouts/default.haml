@@ -13,4 +13,9 @@
       = yield
 
       .body-liner-foot
-        %a{href: app_info['repository']} Full info on GitHub 
+        %span.version v#{app_info['version']}
+        %a{href: app_info['repository']} Full info and usage instructions on GitHub
+
+    .credit
+      Made with 🥖 by
+      %a{href: 'https://github.com/companionstudio'} Companion.

@@ -5,12 +5,21 @@
   The token agent is set up and ready to provide tokens for
   %code @#{@client.username}.
 
-%p To use this token paste the following snippet into your web page:
+- if settings.refresh_webhook?
+  %p Temporize is scheduled to refresh this token on #{next_refresh_date}.
+
+%h3 Usage
+
+%p To use your token, paste the following snippet into your web page:
 
 %pre.snippet
   %code
     &= "<script src='https://#{request.host}/token.js'></script>"
 
+%p
+  Your API token will be available in a global constant called
+  %code InstagramToken
 
-
-%p You can also access tokens in JSON format at: https://#{request.host}/token.json
+%p
+  You can also access the token in JSON format at:
+  %a{href: "#{request.url}/token.json"} #{request.url}/token.json

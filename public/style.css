@@ -1,6 +1,7 @@
 :root {
-  --highlight-color: rgb(192, 218, 80);
-  --highlight-text: rgb(86, 156, 25);
+  --highlight-color: rgb(255, 200, 34);
+  --highlight-text: rgb(77, 103, 117);
+  --success-text: rgb(50, 148, 60);
   --error-text: rgb(166, 27, 27);
 }
 
@@ -23,6 +24,7 @@ body {
   align-items: center;
   display: flex;
   justify-content: center;
+  flex-direction: column;
   min-height: 100%;
   padding: 1rem 0
 }
@@ -35,9 +37,10 @@ body {
 }
 
 .body-liner-foot {
-  padding-top: 1rem;
-  margin-top: 2rem;
   border-top: 1px solid #DDD;
+  font-size: 0.85rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
 }
 
 h1, h2, h3 {
@@ -46,12 +49,24 @@ h1, h2, h3 {
 }
 
 h1 {
-  border-bottom: 2px solid var(--highlight-color);
-  padding-bottom: 0.5em;
+  border-bottom: 3px solid var(--highlight-color);
+  padding-bottom: 0.25em;
+}
+
+h2 {
+  font-size: 1.25rem;
+}
+
+h3 {
+  border-top: 2px dotted var(--highlight-color);
+  padding-top: 0.5rem;
+  font-size: 1.1rem;
 }
 
 li, p {
+  font-size: 0.9rem;
   line-height: 1.42;
+  margin-bottom: 0.6em;
 }
 
 code {
@@ -100,18 +115,43 @@ span.note {
   border-radius: 50%;
   color: #FFF;
   display: inline-block;
-  font-size: 1.5rem;
-  height: 2rem;
-  line-height: 2rem;
-  margin-right: 0.65rem;
+  font-size: 0.85rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  margin-right: 0.25rem;
   text-align: center;
-  width: 2rem;
+  width: 1.5rem;
+  vertical-align: 0.2em;
 }
 
 .success-marker {
-  background: var(--highlight-text);
+  background: var(--success-text);
 }
 
 .failure-marker {
   background: var(--error-text);
+}
+
+.credit {
+  text-align: right;
+  padding: 1rem;
+  font-size: 0.8rem;
+  max-width: 48rem;
+  width: 100%;
+  color: #999;
+}
+
+.credit a {
+  font-weight: bold;
+  text-decoration-style: dotted;
+}
+
+.credit a:link,
+.credit a:visited {
+  color: #888;
+}
+
+.credit a:focus,
+.credit a:hover {
+  color: #222;
 }
