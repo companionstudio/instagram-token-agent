@@ -12,9 +12,9 @@ This agent is designed to be used alongside services like [instafeed.js](https:/
 
 To begin, you'll need the following:
 
- - [] A Facebook Developer account
- - [] An Instagram account
- - [] A Heroku account
+ - A Facebook Developer account
+ - An Instagram account
+ - A Heroku account
 
 ## Usage
 
@@ -26,7 +26,7 @@ On the page that follows, fill in the following values:
 
  - **App name**: Make up a name for your app - it needs to be unique, like a username. Something like `your-name-token-agent` will do.
 
-_Under 'Config vars'_
+_Under 'Config vars'_: 
 
  - **Starting Token**: Paste your initial token from Facebook here.
  - **App name**: Copy+paste your app name here as well.
@@ -41,10 +41,10 @@ Instagram Token Agent is designed to be configured using Heroku's web UI or CLI.
 
 | Key  | Description  | Default  |
 |---|---|---|
-| ALLOWED_DOMAINS  | White-list of the domains that can request the token via JS snippet or JSON object | none (any domain is allowed)  |
-| REFRESH_MODE  | How should the refresh schedule work? Currently, only 'cron' is allowed, which refreshes on a set schedule | `cron`  |
-| REFRESH_FREQUENCY  | How often should we refresh the token? Currently 'daily', 'weekly', 'monthly' are supported.  | `weekly`  |
-| JS_CONSTANT_NAME | Set the name of the constant provided by the JS snippet  | `InstagramToken` |
+| `ALLOWED_DOMAINS`  | White-list of the domains that can request the token via JS snippet or JSON object | none (any domain is allowed)  |
+| `REFRESH_MODE`  | How should the refresh schedule work? Currently, only 'cron' is allowed, which refreshes on a set schedule | `cron`  |
+| `REFRESH_FREQUENCY`  | How often should we refresh the token? Currently 'daily', 'weekly', 'monthly' are supported.  | `weekly`  |
+| `JS_CONSTANT_NAME` | Set the name of the constant provided by the JS snippet  | `InstagramToken` |
 
 ## To do
 
