@@ -11,12 +11,16 @@
   ],
   "env": {
     "STARTING_TOKEN": {
-      "value": "replace_me",
-      "description": "The initial Instagram token value, sourced from Facebook's app dashboard."
+      "value": "copy_token_here",
+      "description": "Your initial Instagram token value, sourced from Facebook's app dashboard."
+    },
+    "APP_NAME": {
+      "value": "copy_app_name_here",
+      "description": "Copy the name that you've given your app to this field (so the app can know its own name)."
     },
     "WEBHOOK_SECRET": {
       "generator": "secret",
-      "description": "A string used to sign webhook requests coming in from outside services."
+      "description": "Used to sign webhook requests coming in from the Temporize scheduling service."
     }
   },
   "scripts": {
