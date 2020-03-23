@@ -7,7 +7,6 @@ Bundler.require
 require_relative 'lib/instagram_token_agent'
 
 class App < Sinatra::Base
-  register Sinatra::Namespace
   register Sinatra::CrossOrigin
   register InstagramTokenAgent::StorageExtension
 
@@ -19,18 +18,29 @@ class App < Sinatra::Base
     BetterErrors.application_root = __dir__
   end
 
+  # -------------------------------------------------
+  # Overall configuration - done here rather than yml files to reduce dependencies
+  # -------------------------------------------------
   configure do
-    enable :cross_origin
+    set :app_name, ENV['APP_NAME']                                              # The app needs to know its own name/url.
+    set :app_url, ENV['APP_URL'] || "https://#{settings.app_name}.herokuapp.com"
 
-    set :show_exceptions, false
-    set :raise_errors, true
+    enable :cross_origin
+    disable :show_exceptions
+    enable :raise_errors
 
     set :allow_origin,      ENV['ALLOWED_DOMAINS'] || :any                      # Check for a whitelist of domains, otherwise allow anything
     set :allow_methods,     [:get, :options]                                    # Only allow GETs and OPTION requests
     set :allow_credentials, false                                               # We have no need of credentials!
 
-    set :default_starting_token, 'replace_me'                                   # The 'Deploy to Heroku' button sets this environment value
-    set :token_expiry_buffer, 2 * 24 * 60 * 60                                  # 2 days
+    set :default_starting_token, 'copy_token_here'                              # The 'Deploy to Heroku' button sets this environment value
+    set :js_constant_name, ENV['JS_CONSTANT_NAME'] ||'InstagramToken'           # The name of the constant used in the JS snippet
+
+    # scheduled mode would be more efficient, but currently doesn't work
+    # because Temporize free accounts don't support dates more than (n?) days in the future
+    set :token_refresh_mode, ENV['REFRESH_MODE'] || :cron                       # cron | scheduled
+    set :token_expiry_buffer, 2 * 24 * 60 * 60                                  # 2 days before expiry
+    set :token_refresh_frequency, ENV['REFRESH_FREQUENCY'].to_s || :weekly      # daily, weekly, monthly
 
     set :refresh_endpoint,  'https://graph.instagram.com/refresh_access_token'  # The endpoint to hit to extend the token
     set :user_endpoint,     'https://graph.instagram.com/me'                    # The endpoint to hit to fetch user profile
@@ -42,64 +52,77 @@ class App < Sinatra::Base
 
   before do
     # Make sure everything is set up before we try to do anything else
-    ensure_configuration
+    ensure_configuration!
   end
 
-  # The 'hello world' page
+  # -------------------------------------------------
+  # The 'hello world' pages
   # @TODO: allow an environment var to turn this off, as it's never needed once in production
+  # -------------------------------------------------
+
   get '/' do
     @client||= InstagramTokenAgent::Client.new(settings)
-
+    check_refresh_job
     haml(:index, layout: :'layouts/default')
   end
 
-  # Show the setup page - mostly for dev
+  # Show the setup page - mostly for dev, this is done automatically in production
   get '/setup' do
     app_info
     haml(:setup, layout: :'layouts/default')
   end
 
-  # The various token-returning routes
-  namespace '/token' do
+  # -------------------------------------------------
+  # The Token API
+  #
+  # This is a good candidate for a Sinatra namespace, but that needs updating
+  # -------------------------------------------------
 
-    # Enable CORS requests in this namespace
+  #Some clients will make an OPTIONS pre-flight request before doing CORS requests
+  options '/token' do
     cross_origin
 
-    #Some clients will make an OPTIONS pre-flight request before doing CORS requests
-    options do
-      response.headers["Allow"] = settings.allow_methods
-      response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
+    response.headers["Allow"] = settings.allow_methods
+    response.headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept"
 
-      204
-    end
+    204 #'No Content'
+  end
 
-    # Return the token itself
-    # Formats:
-    #  - .js
-    #  - .json
-    #  - plain text (default)
-    #
-    get ':format?' do
-      # Tokens remain active even after refresh, so we can set the cache up close to FB's expiry
-      cache_control :public, max_age: InstagramTokenAgent::Store.expires - Time.now - settings.token_expiry_buffer
+  # Return the token itself
+  # Formats:
+  #  - .js
+  #  - .json
+  #  - plain text (default)
+  #
+  get '/token:format?' do
+    cross_origin
+    # Tokens remain active even after refresh, so we can set the cache up close to FB's expiry
+    cache_control :public, max_age: InstagramTokenAgent::Store.expires - Time.now - settings.token_expiry_buffer
 
-      case params['format']
-      when '.js'
-        content_type 'application/javascript'
-        erb :'javascript/snippet.js'
-      when '.json'
-        content_type 'application/json'
-        json(token: InstagramTokenAgent::Store.value)
-      else
-        InstagramTokenAgent::Store.value
-      end
+    case params['format']
+    when '.js'
+      content_type 'application/javascript'
+
+      @js_constant_name = params[:const] || settings.js_constant_name;
+
+      erb(:'javascript/snippet.js')
+
+    when '.json'
+      content_type 'application/json'
+      json(token: InstagramTokenAgent::Store.value)
+    else
+      InstagramTokenAgent::Store.value
     end
   end
 
-  # This endpoint is used by the Temporize scheduling service to trigger a refresh externally
+  # -------------------------------------------------
+  # Webhook endpoints
+  #
+  # Used by the Temporize scheduling service to trigger a refresh externally
+  # -------------------------------------------------
+
   if settings.refresh_webhook?
     post "/hooks/refresh/:signature" do
-
 
       client = InstagramTokenAgent::Client.new(app)
       if client.check_signature? params[:signature]
@@ -109,6 +132,10 @@ class App < Sinatra::Base
       end
     end
   end
+
+  # -------------------------------------------------
+  # Error pages
+  # -------------------------------------------------
 
   not_found do
     haml(:not_found, layout: :'layouts/default')
@@ -120,8 +147,8 @@ class App < Sinatra::Base
 
   private
 
-  # Show the setup screen if we're not yet ready to go
-  def ensure_configuration
+  # Show the setup screen if we're not yet ready to go.
+  def ensure_configuration!
     halt haml(:setup, :'layouts/default') unless configured?
   end
 
@@ -132,7 +159,27 @@ class App < Sinatra::Base
 
   # Provide some info sourced from the app.json file
   def app_info
-    InstagramTokenAgent::AppInfo.info
+    @app_info ||= InstagramTokenAgent::AppInfo.info
   end
 
+  # Find the date of the next refresh job
+  def next_refresh_date
+    if next_job = temporize_client.next_job
+      DateTime.parse(next_job['next']).strftime('%b %-d %Y, %-l:%M%P %Z')
+    else
+      nil
+    end
+  end
+
+  # Check that a job has been scheduled
+  def check_refresh_job
+    return unless temporize_client.jobs.empty?
+
+    temporize_client.update!
+  end
+
+  def temporize_client
+    raise 'Refresh webhooks are not enabled' unless settings.refresh_webhook?
+    @temporize_client ||= Temporize::Scheduler.new(settings)
+  end
 end

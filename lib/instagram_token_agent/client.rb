@@ -17,10 +17,10 @@ module InstagramTokenAgent
       response = get(config.refresh_endpoint, query: query_params(grant_type: 'ig_refresh_token'))
       Store.update(response['access_token'], Time.now + response['expires_in'])
 
-      # If we're working with webhooks, schedule a job for the period [token_expiry_buffer] before the expiry.
+      # If we're working with webhooks, schedule a job for the period [token_expiry_buffer] before expiry.
       if config.refresh_webhook?
         scheduler = Temporize::Scheduler.new(config)
-        scheduler.schedule((Time.now + response['expires_in'] - settings.token_expiry_buffer).utc.iso8601, signature)
+        scheduler.schedule((Time.now + response['expires_in'] - settings.token_expiry_buffer), signature)
       end
     end
 
@@ -30,16 +30,6 @@ module InstagramTokenAgent
 
     def media
       get(config.media_endpoint, query: query_params(fields: ['caption', 'media_type', 'media_url']))
-    end
-
-    private
-
-    def get(*opts)
-      self.class.get(*opts)
-    end
-
-    def query_params(extra_params = {})
-      {access_token: Store.value}.merge(extra_params)
     end
 
     # The HMAC'd secret + the current token value
@@ -52,5 +42,16 @@ module InstagramTokenAgent
     def signature
       OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), config.webhook_secret, InstagramTokenAgent::Store.value)
     end
+
+    private
+
+    def get(*opts)
+      self.class.get(*opts)
+    end
+
+    def query_params(extra_params = {})
+      {access_token: Store.value}.merge(extra_params)
+    end
+
   end
 end
