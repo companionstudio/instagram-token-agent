@@ -30,8 +30,8 @@ On the page that follows, fill in the following values:
 
 _Under 'Config vars'_: 
 
- - **Starting Token**: Paste your initial token from Facebook here.
- - **App name**: Copy+paste your app name here as well.
+- **App name**: Copy+paste your app name here as well.
+- **Starting Token**: Paste your initial token from Facebook here.
 
 Everything else can be left as default. Click _Deploy App_.
 
@@ -53,7 +53,9 @@ Instagram Token Agent is designed to be configured using Heroku's web UI or CLI.
 This is a first cut of this application, and there are still a lot of things to be done:
 
  - Add tests (!)
- - Improve documentation
- - Investigate a better scheduling/refresh solution
+ - Improve documentation and setup instructions
+ - Investigate a simpler scheduling/refresh solution
  - Work out a nice way to trigger the refresh tasks within the app or in heroku
  - Add a switch to turn the 'hello world' pages off in production
+ - Make the domain whitelist actually do something
+ - Add some mechanism whereby updating the starting token restarts the process
