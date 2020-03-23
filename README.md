@@ -12,9 +12,9 @@ This agent is designed to be used alongside services like [instafeed.js](https:/
 
 To begin, you'll need the following:
 
- - [] A Facebook Developer account
- - [] An Instagram account
- - [] A Heroku account
+ - A Facebook Developer account
+ - An Instagram account
+ - A Heroku account
 
 ## Usage
 
