@@ -20,7 +20,9 @@ To begin, you'll need the following:
 
 [Follow the instructions here](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started) to create an application on Facebook to connect to Instagram and generate a Long-lived Basic Display API token for your user. Copy this token and keep it handy for the next step.
 
-Click the 'Deploy' button! [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+Click this handy 'Deploy' button: 
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 On the page that follows, fill in the following values:
 
