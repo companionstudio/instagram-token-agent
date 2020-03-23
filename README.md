@@ -18,13 +18,13 @@ To begin, you'll need the following:
 
 ## Usage
 
-[Follow the instructions here](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started) to create an application on Facebook to connect to Instagram and generate a Long-lived Basic Display API token for your user. Copy this token and keep it handy for the next step.
+**1.** [Follow the instructions here](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started) to create an application on Facebook to connect to Instagram and generate a Long-lived Basic Display API token for your user. Copy this token and keep it handy for the next step.
 
-Click this handy 'Deploy' button: 
+**2.** Click this handy 'Deploy' button: 
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-On the page that follows, fill in the following values:
+**3.** On the page that follows, fill in the following values:
 
  - **App name**: Make up a name for your app - it needs to be unique, like a username. Something like `your-name-token-agent` will do.
 
@@ -33,7 +33,9 @@ _Under 'Config vars'_:
 - **App name**: Copy+paste your app name here as well.
 - **Starting Token**: Paste your initial token from Facebook here.
 
-Everything else can be left as default. Click _Deploy App_.
+Everything else can be left as default.
+
+**4.** Click _Deploy App_.
 
 The deployment process can take a minute or so. Once complete, you'll see a button to visit your new application.
 
