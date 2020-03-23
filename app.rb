@@ -107,11 +107,8 @@ class App < Sinatra::Base
       else
         halt 403
       end
-
-
     end
   end
-
 
   not_found do
     haml(:not_found, layout: :'layouts/default')

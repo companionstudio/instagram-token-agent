@@ -1,8 +1,6 @@
 desc "Perform initial setup of the database"
 task :setup => :environment do
 
-  sh "heroku labs:enable runtime-dyno-metadata" if app.production?
-
   # Create the table in the DB. This is assumed to be Postgres.
   InstagramTokenAgent::Store.execute <<-SQL
     CREATE TABLE IF NOT EXISTS tokens (
