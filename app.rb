@@ -61,9 +61,15 @@ class App < Sinatra::Base
   # -------------------------------------------------
 
   get '/' do
-    @client||= InstagramTokenAgent::Client.new(settings)
-    check_refresh_job
     haml(:index, layout: :'layouts/default')
+  end
+
+  # Requested by the index page, this checks the status of the
+  # refresh task and talks to Instagram to ensure everything's set up.
+  get '/status' do
+    @client ||= InstagramTokenAgent::Client.new(settings)
+    check_refresh_job
+    haml(:status, layout: nil)
   end
 
   # Show the setup page - mostly for dev, this is done automatically in production

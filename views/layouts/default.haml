@@ -9,13 +9,14 @@
     %link{:rel => 'stylesheet', :type => 'text/css', :href => '/style.css'}
 
   %body
-    .body-liner
-      = yield
+    %main
+      .main-liner
+        = yield
 
-      .body-liner-foot
-        %a{href: app_info['repository']} Full info and usage instructions on GitHub
-        %span.version v#{InstagramTokenAgent::VERSION}
+        .main-liner-foot
+          %a{href: app_info['repository']} Full info and usage instructions on GitHub
+          %span.version v#{InstagramTokenAgent::VERSION}
 
-    .credit
-      Made with 🥖 by
-      %a{href: 'https://github.com/companionstudio'} Companion.
+      .credit
+        Made with 🥖 by
+        %a{href: 'https://github.com/companionstudio'} Companion.
