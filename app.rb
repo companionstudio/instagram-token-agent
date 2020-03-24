@@ -30,7 +30,7 @@ class App < Sinatra::Base
     enable :raise_errors
 
     set :help_pages,        !(ENV['HIDE_HELP_PAGES']) || false                  # Whether to display the welcome pages or not
-    set :allow_origin,      ENV['ALLOWED_DOMAINS'] || :any                      # Check for a whitelist of domains, otherwise allow anything
+    set :allow_origin,      ENV['ALLOWED_DOMAINS'] || '*' #:any                 # Check for a whitelist of domains, otherwise allow anything
     set :allow_methods,     [:get, :options]                                    # Only allow GETs and OPTION requests
     set :allow_credentials, false                                               # We have no need of credentials!
 
