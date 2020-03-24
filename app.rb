@@ -111,11 +111,12 @@ class App < Sinatra::Base
   #  - plain text (default)
   #
   get '/token:format?' do
-    cross_origin
     # Tokens remain active even after refresh, so we can set the cache up close to FB's expiry
     cache_control :public, max_age: InstagramTokenAgent::Store.expires - Time.now - settings.token_expiry_buffer
 
-    case params['format']
+    cross_origin
+
+    response_body = case params['format']
     when '.js'
       content_type 'application/javascript'
 
@@ -129,6 +130,10 @@ class App < Sinatra::Base
     else
       InstagramTokenAgent::Store.value
     end
+
+    etag Digest::SHA1.hexdigest(response_body + response.headers['Access-Control-Allow-Origin'])
+
+    response_body
   end
 
   # -------------------------------------------------
