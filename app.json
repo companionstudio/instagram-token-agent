@@ -16,7 +16,7 @@
     },
     "APP_NAME": {
       "value": "copy_app_name_here",
-      "description": "Copy the name that you've given your app to this field (so the app can know its own name)."
+      "description": "Copy the name you chose for your app here (so the app can know its own name)."
     },
     "WEBHOOK_SECRET": {
       "generator": "secret",
