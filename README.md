@@ -26,6 +26,8 @@ To begin, you'll need the following:
 
 **3.** On the page that follows, fill in the following values:
 
+![heroku-deploy-config](https://user-images.githubusercontent.com/53896/77387150-83d18300-6ddc-11ea-9095-e846a2d206c4.png)
+
  - **App name**: Make up a name for your app - it needs to be unique, like a username. Something like `your-name-token-agent` will do.
 
 _Under 'Config vars'_:
