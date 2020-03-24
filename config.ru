@@ -1,5 +1,10 @@
 require './app'
 
+use Rack::Cors do
+  origins '*'
+  resource '*', headers: :any, methods: :get
+end
+
 if memcache_servers = ENV["MEMCACHIER_SERVERS"]
   use Rack::Cache,
     username: ENV['MEMCACHIER_USERNAME'],

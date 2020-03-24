@@ -12,6 +12,7 @@ gem 'httparty',                 '~> 0.18.0'
 gem 'memcachier',               '~> 0.0.2'
 gem 'dalli',                    '~> 2.7', '>= 2.7.10'
 gem 'rack-cache',               '~> 1.11'
+gem 'rack-cors',                '~> 0.4.0'
 
 # gem 'rdiscount',                '~> 2.2', '>= 2.2.0.1'
 # gem 'uglifier',                 '~> 4.1', '>= 4.1.20'
