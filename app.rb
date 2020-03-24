@@ -47,7 +47,7 @@ class App < Sinatra::Base
     set :user_endpoint,     'https://graph.instagram.com/me'                    # The endpoint to hit to fetch user profile
     set :media_endpoint,    'https://graph.instagram.com/me/media'              # The endpoint to hit to fetch the user's media
 
-    enable :refresh_webhook if ENV['TEMPORIZE_URL']                             # Check if Temporize is configured
+    set :refresh_webhook, (ENV['TEMPORIZE_URL'] ? true : false)                 # Check if Temporize is configured
     set :webhook_secret, ENV['WEBHOOK_SECRET']                                  # The secret value used to sign external, incoming requests
   end
 
@@ -160,6 +160,7 @@ class App < Sinatra::Base
   error do
     haml(:error, layout: :'layouts/default')
   end
+
 
   private
 
