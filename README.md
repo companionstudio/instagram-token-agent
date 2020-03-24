@@ -26,7 +26,7 @@ To begin, you'll need the following:
 
 **3.** On the page that follows, fill in the following values:
 
-![heroku-deploy-config](https://user-images.githubusercontent.com/53896/77387150-83d18300-6ddc-11ea-9095-e846a2d206c4.png)
+![heroku-deploy-config](https://user-images.githubusercontent.com/53896/77387614-cc3d7080-6ddd-11ea-800a-30ec986eedd9.png)
 
  - **App name**: Make up a name for your app - it needs to be unique, like a username. Something like `your-name-token-agent` will do.
 
@@ -52,6 +52,8 @@ Instagram Token Agent is designed to be configured using Heroku's web UI or CLI.
 | `REFRESH_MODE`  | How should the refresh schedule work? Currently, only 'cron' is allowed, which refreshes on a set schedule | `cron`  |
 | `REFRESH_FREQUENCY`  | How often should we refresh the token? Currently 'daily', 'weekly', 'monthly' are supported.  | `weekly`  |
 | `JS_CONSTANT_NAME` | Set the name of the constant provided by the JS snippet  | `InstagramToken` |
+
+To set these options in the Heroku dashboard, click the 'Settings' tab in your app, then _Reveal Config Vars_.  
 
 ## What are all the moving parts?
 
