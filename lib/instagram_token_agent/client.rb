@@ -17,10 +17,10 @@ module InstagramTokenAgent
       response = get(config.refresh_endpoint, query: query_params(grant_type: 'ig_refresh_token'))
       Store.update(response['access_token'], Time.now + response['expires_in'])
 
-      # If we're working with webhooks, schedule a job for the period [token_expiry_buffer] before expiry.
-      if config.refresh_webhook?
+      # If we're working with single-use webhooks, schedule a job for the period [token_expiry_buffer] before expiry.
+      if config.refresh_webhook? and config.token_refresh_mode == :cron
         scheduler = Temporize::Scheduler.new(config)
-        scheduler.schedule((Time.now + response['expires_in'] - config.token_expiry_buffer), signature)
+        scheduler.queue_refresh((Time.now + response['expires_in'] - config.token_expiry_buffer), signature)
       end
     end
 
