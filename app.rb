@@ -29,6 +29,7 @@ class App < Sinatra::Base
     disable :show_exceptions
     enable :raise_errors
 
+    set :help_pages,        !(ENV['HIDE_HELP_PAGES']) || false                  # Whether to display the welcome pages or not
     set :allow_origin,      ENV['ALLOWED_DOMAINS'] || :any                      # Check for a whitelist of domains, otherwise allow anything
     set :allow_methods,     [:get, :options]                                    # Only allow GETs and OPTION requests
     set :allow_credentials, false                                               # We have no need of credentials!
@@ -50,9 +51,18 @@ class App < Sinatra::Base
     set :webhook_secret, ENV['WEBHOOK_SECRET']                                  # The secret value used to sign external, incoming requests
   end
 
+  # Make sure everything is set up before we try to do anything else
   before do
-    # Make sure everything is set up before we try to do anything else
     ensure_configuration!
+  end
+
+  # Switch for the help pages
+  unless settings.help_pages?
+    ['/', '/status', '/setup'].each do |help_page|
+      before help_page do
+        halt 204
+      end
+    end
   end
 
   # -------------------------------------------------
@@ -60,6 +70,7 @@ class App < Sinatra::Base
   # @TODO: allow an environment var to turn this off, as it's never needed once in production
   # -------------------------------------------------
 
+  # The home page
   get '/' do
     haml(:index, layout: :'layouts/default')
   end
@@ -72,7 +83,7 @@ class App < Sinatra::Base
     haml(:status, layout: nil)
   end
 
-  # Show the setup page - mostly for dev, this is done automatically in production
+  # Show the setup page - mostly for dev, this is shown automatically in production
   get '/setup' do
     app_info
     haml(:setup, layout: :'layouts/default')
@@ -80,8 +91,7 @@ class App < Sinatra::Base
 
   # -------------------------------------------------
   # The Token API
-  #
-  # This is a good candidate for a Sinatra namespace, but that needs updating
+  # This is a good candidate for a Sinatra namespace, but sinatra-contrib needs updating
   # -------------------------------------------------
 
   #Some clients will make an OPTIONS pre-flight request before doing CORS requests
