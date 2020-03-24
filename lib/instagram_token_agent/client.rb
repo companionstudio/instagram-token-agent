@@ -29,18 +29,20 @@ module InstagramTokenAgent
     end
 
     def media
-      get(config.media_endpoint, query: query_params(fields: ['caption', 'media_type', 'media_url']))
+      response = get(config.media_endpoint, query: query_params(fields: 'media_url'))
+      # Ew. This is gross
+      if response.success?
+        JSON.parse(response.body)['data'][0]['media_url']
+      else
+        nil
+      end
     end
 
-    # The HMAC'd secret + the current token value
-    #
-    # A valid signature is the HMAC'd webhook_secret + the existing token value
-    # This is vulnerable to the token in the DB changing (perhaps via a manual update) after a job is scheduled
-    # In that case, the job will fail, since the HMAC no longer matches the current token
-    # This isn't bad, per se - it just means that whenever a token is updated, any old jobs must
-    # be cleared, and a single new job scheduled.
+    # The HMAC'd secret + initial token value
+    # It would be better to hash the current token value, but this won't work with recurring jobs, since
+    # the value needs to stay consistent.
     def signature
-      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), config.webhook_secret, InstagramTokenAgent::Store.value)
+      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), config.webhook_secret, ENV['STARTING_TOKEN'])
     end
 
     private
