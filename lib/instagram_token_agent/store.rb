@@ -1,4 +1,6 @@
 module InstagramTokenAgent
+  require 'pg'
+
   # Handles storage and retrieval of the token value
   # This is currently assumed to back onto a minimal Postgres DB for use on Heroku,
   # but could be adapted to other stores if needed.
@@ -15,22 +17,21 @@ module InstagramTokenAgent
         app.set(:database, env_config)
       end
 
-      Store.config = app.database
+      Store.connection = PG.connect(app.database)
     end
   end
 
   # Handle interfacing with the database, updating and retrieving values
   class Store
-    require 'pg'
 
-    # Store the config for future connections to use
-    def self.config=(config)
-      @config = config
+    # A shared connection object
+    def self.connection=(connection)
+      @connection ||= connection
     end
 
     # A shared connection object
     def self.connection
-      @connection ||= PG.connect(@config)
+      @connection
     end
 
     # Execute the given SQL and params
