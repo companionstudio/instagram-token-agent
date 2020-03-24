@@ -53,6 +53,8 @@ Instagram Token Agent is designed to be configured using Heroku's web UI or CLI.
 | `REFRESH_FREQUENCY`  | How often should we refresh the token? Currently 'daily', 'weekly', 'monthly' are supported.  | `weekly`  |
 | `JS_CONSTANT_NAME` | Set the name of the constant provided by the JS snippet  | `InstagramToken` |
 
+To set these options in the Heroku dashboard, click the 'Settings' tab in your app, then _Reveal Config Vars_.  
+
 ## What are all the moving parts?
 
 This app is designed to run using free plans and add-ons at Heroku, and be configurable via Heroku's interface, so you don't need to use the [CLI](https://devcenter.heroku.com/articles/heroku-cli) if you don't want to.
