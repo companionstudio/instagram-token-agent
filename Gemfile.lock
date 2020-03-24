@@ -38,7 +38,8 @@ GEM
     rack (2.2.2)
     rack-cache (1.11.0)
       rack (>= 0.4)
-    rack-cors (0.4.1)
+    rack-cors (1.0.5)
+      rack (>= 1.6.0)
     rack-protection (2.0.8.1)
       rack
     rake (13.0.1)
@@ -74,7 +75,7 @@ DEPENDENCIES
   pry
   puma
   rack-cache (~> 1.11)
-  rack-cors (~> 0.4.0)
+  rack-cors (~> 1.0.5)
   rake (~> 13.0, >= 13.0.1)
   sinatra (~> 2.0, >= 2.0.8.1)
   sinatra-contrib (~> 2.0, >= 2.0.8.1)
