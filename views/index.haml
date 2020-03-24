@@ -1,11 +1,29 @@
 %h1 Instagram Token Agent
 
-%h2
-  The token agent is set up and ready to provide tokens for
-  %code @#{@client.username}.
+.agent-status-display
+  %h2
+    .ticker
+      .a
+      .b
+      .c
+      
+    Checking status...
 
-- if settings.refresh_webhook?
-  %p Temporize is scheduled to refresh this token on #{next_refresh_date}.
+  :javascript
+    //Fetch and insert the status info
+    (function(){
+      var request = new XMLHttpRequest();
+
+      request.open('GET', '/status', true);
+
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          document.querySelector('.agent-status-display').innerHTML = request.responseText;
+        }
+      };
+
+      request.send();
+    })();
 
 %h3 Usage
 
