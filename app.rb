@@ -131,7 +131,7 @@ class App < Sinatra::Base
       InstagramTokenAgent::Store.value
     end
 
-    etag Digest::SHA1.hexdigest(response_body + response.headers['Access-Control-Allow-Origin'])
+    etag Digest::SHA1.hexdigest(response_body + (response.headers['Access-Control-Allow-Origin'] || '*'))
 
     response_body
   end
