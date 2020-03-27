@@ -7,8 +7,8 @@ Bundler.require
 require_relative 'lib/instagram_token_agent'
 
 class App < Sinatra::Base
+  register Sinatra::ActiveRecordExtension
   register Sinatra::CrossOrigin
-  register InstagramTokenAgent::StorageExtension
 
   # Nicer debugging in dev mode
   configure :development do
@@ -38,7 +38,7 @@ class App < Sinatra::Base
     set :js_constant_name, ENV['JS_CONSTANT_NAME'] ||'InstagramToken'           # The name of the constant used in the JS snippet
 
     # scheduled mode would be more efficient, but currently doesn't work
-    # because Temporize free accounts don't support dates more than (n?) days in the future
+    # because Temporize free accounts don't support dates more than 7 days in the future
     set :token_refresh_mode, ENV['REFRESH_MODE'] || :cron                       # cron | scheduled
     set :token_expiry_buffer, 2 * 24 * 60 * 60                                  # 2 days before expiry
     set :token_refresh_frequency, ENV['REFRESH_FREQUENCY'].to_s || :weekly      # daily, weekly, monthly
@@ -166,32 +166,36 @@ class App < Sinatra::Base
     haml(:error, layout: :'layouts/default')
   end
 
+  helpers do
+
+    # Provide some info sourced from the app.json file
+    def app_info
+      @app_info ||= InstagramTokenAgent::AppInfo.info
+    end
+
+    # Check that the configuration looks right to continue
+    def configured?
+      ENV['STARTING_TOKEN'] != settings.default_starting_token and !InstagramTokenAgent::Store.value.nil?
+    end
+
+    # Show the setup screen if we're not yet ready to go.
+    def ensure_configuration!
+      halt haml(:setup, :'layouts/default') unless configured?
+    end
+
+    # Find the date of the next refresh job
+    def next_refresh_date
+      if next_job = temporize_client.next_job
+        DateTime.parse(next_job['next']).strftime('%b %-d %Y, %-l:%M%P %Z')
+      else
+        nil
+      end
+    end
+  end
+
 
   private
 
-  # Show the setup screen if we're not yet ready to go.
-  def ensure_configuration!
-    halt haml(:setup, :'layouts/default') unless configured?
-  end
-
-  # Check that the configuration looks right to continue
-  def configured?
-    ENV['STARTING_TOKEN'] != settings.default_starting_token and !InstagramTokenAgent::Store.value.nil?
-  end
-
-  # Provide some info sourced from the app.json file
-  def app_info
-    @app_info ||= InstagramTokenAgent::AppInfo.info
-  end
-
-  # Find the date of the next refresh job
-  def next_refresh_date
-    if next_job = temporize_client.next_job
-      DateTime.parse(next_job['next']).strftime('%b %-d %Y, %-l:%M%P %Z')
-    else
-      nil
-    end
-  end
 
   # Check that a job has been scheduled
   def check_refresh_job

@@ -1,42 +1,10 @@
 module InstagramTokenAgent
-  require 'pg'
-
-  # Handles storage and retrieval of the token value
-  # This is currently assumed to back onto a minimal Postgres DB for use on Heroku,
-  # but could be adapted to other stores if needed.
-  module StorageExtension
-
-    # When registered, pull the DB config info from:
-    # - Environment DATABASE_URL. Used by Heroku
-    # - config/database.yml. See README for options
-    def self.registered(app)
-      if ENV['DATABASE_URL']
-        app.set(:database, ENV['DATABASE_URL'])
-      elsif File.exist?("#{Dir.pwd}/config/database.yml")
-        env_config = (YAML.load_file("#{Dir.pwd}/config/database.yml") || {})[app.environment.to_s]
-        app.set(:database, env_config)
-      end
-
-      Store.connection = PG.connect(app.database)
-    end
-  end
-
   # Handle interfacing with the database, updating and retrieving values
   class Store
 
-    # A shared connection object
-    def self.connection=(connection)
-      @connection ||= connection
-    end
-
-    # A shared connection object
-    def self.connection
-      @connection
-    end
-
     # Execute the given SQL and params
     def self.execute(sql, params = [])
-      connection.exec_params(sql, params)
+      ActiveRecord::Base.connection_pool.with_connection { |con| con.exec_query(sql, params) }
     end
 
     # Fetch the value row data and memoize
@@ -45,11 +13,11 @@ module InstagramTokenAgent
     #
     # @return Proc
     def self.data
-      row = execute('SELECT value, expires_at, created_at FROM tokens LIMIT 1')
+      row = execute('SELECT value, expires_at, created_at FROM tokens LIMIT 1').to_a[0]
       @data ||= OpenStruct.new({
-        value: row.getvalue(0,0),
-        expires: DateTime.parse(row.getvalue(0,1)).to_time,
-        created: DateTime.parse(row.getvalue(0,2)).to_time
+        value: row['value'],
+        expires: row['expires_at'],
+        created: row['created_at']
       })
     end
 

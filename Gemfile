@@ -14,12 +14,13 @@ gem 'dalli',                    '~> 2.7', '>= 2.7.10'
 gem 'rack-cache',               '~> 1.11'
 gem 'rack-cors',                '~> 1.1.1'
 
-# gem 'rdiscount',                '~> 2.2', '>= 2.2.0.1'
-# gem 'uglifier',                 '~> 4.1', '>= 4.1.20'
-# gem 'sinatra-asset-pipeline',   '~> 2.2'
-# gem 'non-stupid-digest-assets', git: 'https://github.com/companionstudio/non-stupid-digest-assets.git', tag: '1.0.10'
+# Database connectivity:
+# Using Activerecord for expedience here - be more efficient to use pg+some pooling lib
+# gem 'agent-q',                  git: 'https://github.com/jacobsimeon/q.git'
 
-gem 'pg',                       '~> 1.2', '>= 1.2.3'
+gem 'pg',                   '~> 1.2', '>= 1.2.3'
+gem 'sinatra-activerecord', '~> 2.0', '>= 2.0.14'
+
 gem 'puma'
 gem 'dotenv'
 
