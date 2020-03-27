@@ -4,7 +4,7 @@ module InstagramTokenAgent
 
     # Execute the given SQL and params
     def self.execute(sql, params = [])
-      ActiveRecord::Base.connection_pool.with_connection { |con| con.exec_query(sql, params) }
+      ActiveRecord::Base.connection_pool.with_connection { |con| con.exec_query(sql, 'sql', params) }
     end
 
     # Fetch the value row data and memoize
