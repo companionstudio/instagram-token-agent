@@ -16,7 +16,7 @@ To begin, you'll need the following:
  - An Instagram account
  - A Heroku account
 
-## Usage
+## Setting up:
 
 **1.** [Follow the instructions here](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started) to create an application on Facebook to connect to Instagram and generate a Long-lived Basic Display API token for your user. Copy this token and keep it handy for the next step.
 
@@ -40,6 +40,16 @@ Everything else can be left as default.
 **4.** Click _Deploy App_.
 
 The deployment process can take a minute or so. Once complete, you'll see a _View_ button to visit your new application.
+
+## Using the token in your site:
+
+The instructions in your new token agent app will provide you with two simple ways to access your token value from your site:
+
+* **JS Snippet:** Just include the `<script>` tag in your page, before any code that need to use the token, and you'll have access to a global constant called `InstagramToken` by default. If you'd like your constant named something else, add `?const=SomeOtherName` to the script's address.
+
+* **JSON Object:** If you'd like a JSON object instead, call `/token.json` - you'll get an object with a single key `token`, with the value of your token.
+
+[Check out a demo](https://codepen.io/companionstudio/pen/xxGyVKN) of these access methods.
 
 ## Configuration options
 
