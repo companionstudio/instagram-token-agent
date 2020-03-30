@@ -2,7 +2,7 @@
 
 ## A service to keep your Instagram Basic Display API token fresh.
 
-⚠️**Beta software! I'm probably not ready for production use.**
+⚠️**Fresh, beta software! Please raise any issues with deployment and use here.**
 
 This agent is designed to run as a small, self-contained app on [Heroku](https://heroku.com) (though there are other ways to run it if you prefer). By default, it runs using free services and will keep your token up to date once set up correctly.
 
