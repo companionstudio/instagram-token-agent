@@ -18,7 +18,7 @@ To begin, you'll need the following:
 
 ## Setting up:
 
-**1.** [Follow steps 1 - 3 here](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started) to create an application on Facebook to connect to Instagram and generate a Long-lived Basic Display API token for your user. 
+**1.** [Follow steps 1 - 3 here](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started) to create an application on Facebook to connect to Instagram. 
 
 **2.** Use the [User Token Generator](https://developers.facebook.com/docs/instagram-basic-display-api/overview#user-token-generator) to create a starting access token. Copy this token and keep it handy for the next step.
 
