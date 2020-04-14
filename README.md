@@ -4,7 +4,7 @@
 
 ⚠️**Fresh, beta software! Please raise any issues with deployment and use [here](https://github.com/companionstudio/instagram-token-agent/issues).**
 
-This agent is designed to run as a small, self-contained app on [Heroku](https://heroku.com) (though there are other ways to run it if you prefer). By default, it runs using free services and will keep your token up to date once set up correctly.
+This agent is designed to run as a small, self-contained app on [Heroku](https://heroku.com) (though there are other ways to run it if you prefer). By default, it **runs using free services** and will keep your token up to date once set up correctly.
 
 This agent is designed to work with libraries like [instafeed.js](https://github.com/stevenschobert/instafeed.js) which need a valid token to operate. These tokens need to be periodically refreshed - **Instagram Token Agent** takes care of that for you.
 
@@ -14,7 +14,7 @@ To begin, you'll need the following:
 
  - A Facebook Developer account
  - An Instagram account
- - A Heroku account
+ - A Verified Heroku account (Verification uses a credit card, though running the Token Agent will not cost you anything.)
 
 ## Setting up:
 
