@@ -67,6 +67,10 @@ Instagram Token Agent is designed to be configured using Heroku's web UI or CLI.
 
 To set these options in the Heroku dashboard, click the 'Settings' tab in your app, then _Reveal Config Vars_.  
 
+## API Rate limits
+
+By default, apps using the Instagram Basic Display API are limited to 200 requests per hour, but there's a (relatively simple way to extend that](https://github.com/companionstudio/instagram-token-agent/wiki/Instagram-API-Limits).
+
 ## What are all the moving parts?
 
 This app is designed to run using free plans and add-ons at Heroku, and be configurable via Heroku's interface, so you don't need to use the [CLI](https://devcenter.heroku.com/articles/heroku-cli) if you don't want to.
