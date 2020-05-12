@@ -69,7 +69,9 @@ To set these options in the Heroku dashboard, click the 'Settings' tab in your a
 
 ## API Rate limits
 
-By default, apps using the Instagram Basic Display API are limited to 200 requests per hour, but there's a (relatively simple way to extend that](https://github.com/companionstudio/instagram-token-agent/wiki/Instagram-API-Limits).
+~~By default, apps using the Instagram Basic Display API are limited to 200 requests per hour, but there's a (relatively simple way to extend that](https://github.com/companionstudio/instagram-token-agent/wiki/Instagram-API-Limits).~~
+
+Basic Display API integrations have a per-user request limit which is unpublished and currently can't be extended. 
 
 ## What are all the moving parts?
 
