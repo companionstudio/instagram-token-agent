@@ -14,7 +14,13 @@ module InstagramTokenAgent
     end
 
     def refresh
-      response = get(config.refresh_endpoint, query: query_params(grant_type: 'ig_refresh_token'))
+      # Fetch the latest from the instagram API
+      response = get(
+        config.refresh_endpoint,
+        query: query_params(grant_type: 'ig_refresh_token'),
+        headers: {"User-Agent" => "Instagram Token Agent"}
+      )
+
       Store.update(response['access_token'], Time.now + response['expires_in'])
 
       # If we're working with single-use webhooks, schedule a job for the period [token_expiry_buffer] before expiry.
