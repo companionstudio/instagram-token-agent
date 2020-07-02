@@ -50,7 +50,7 @@ GEM
       method_source (~> 0.9.0)
     puma (4.3.5)
       nio4r (~> 2.0)
-    rack (2.2.2)
+    rack (2.2.3)
     rack-cache (1.11.0)
       rack (>= 0.4)
     rack-cors (1.1.1)
