@@ -10,8 +10,6 @@ RUN gem install bundler && bundle install
 
 COPY . .
 
-RUN printenv
-
 COPY docker/ruby/entrypoint.sh /entrypoint.sh
 RUN chmod +x "/entrypoint.sh"
 
