@@ -9,11 +9,6 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
   ruby:
     build:
       context: ./
@@ -26,7 +21,7 @@ services:
       PORT: ${PORT}
       RACK_ENV: ${RACK_ENV}
       TEMPORIZE_URL: ${TEMPORIZE_URL}
-      WEBHOOK_SECRET: ${WEBHOOK_SECRET}
+      WEBHOOK_SECRET: ${}
     depends_on:
       - database
     ports:
