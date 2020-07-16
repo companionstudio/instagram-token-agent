@@ -21,7 +21,7 @@ services:
       PORT: ${PORT}
       RACK_ENV: ${RACK_ENV}
       TEMPORIZE_URL: ${TEMPORIZE_URL}
-      WEBHOOK_SECRET: ${}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET}
     depends_on:
       - database
     ports:
