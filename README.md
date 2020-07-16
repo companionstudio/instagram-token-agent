@@ -12,13 +12,13 @@ This agent is designed to work with libraries like [instafeed.js](https://github
 
 To begin, you'll need the following:
 
- - A Facebook Developer account
- - An Instagram account
- - A Verified Heroku account (Verification uses a credit card, though running the Token Agent will not cost you anything.)
+- A Facebook Developer account
+- An Instagram account
+- A Verified Heroku account (Verification uses a credit card, though running the Token Agent will not cost you anything.)
 
 ## Setting up:
 
-**1.** [Follow steps 1 - 3 here](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started) to create an application on Facebook to connect to Instagram. 
+**1.** [Follow steps 1 - 3 here](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started) to create an application on Facebook to connect to Instagram.
 
 **2.** Use the [User Token Generator](https://developers.facebook.com/docs/instagram-basic-display-api/overview#user-token-generator) to create a starting access token. Copy this token and keep it handy for the next step.
 
@@ -30,7 +30,7 @@ To begin, you'll need the following:
 
 ![heroku-deploy-config](https://user-images.githubusercontent.com/53896/77387614-cc3d7080-6ddd-11ea-800a-30ec986eedd9.png)
 
- - **App name**: Make up a name for your app - it needs to be unique, like a username. Something like `your-name-token-agent` will do.
+- **App name**: Make up a name for your app - it needs to be unique, like a username. Something like `your-name-token-agent` will do.
 
 _Under 'Config vars'_:
 
@@ -47,9 +47,9 @@ The deployment process can take a minute or so. Once complete, you'll see a _Vie
 
 The instructions in your new token agent app will provide you with two simple ways to access your token value from your site:
 
-* **JS Snippet:** Just include the `<script>` tag in your page, before any code that need to use the token, and you'll have access to a global constant called `InstagramToken` by default. If you'd like your constant named something else, add `?const=SomeOtherName` to the script's address.
+- **JS Snippet:** Just include the `<script>` tag in your page, before any code that need to use the token, and you'll have access to a global constant called `InstagramToken` by default. If you'd like your constant named something else, add `?const=SomeOtherName` to the script's address.
 
-* **JSON Object:** If you'd like a JSON object instead, call `/token.json` - you'll get an object with a single key `token`, with the value of your token.
+- **JSON Object:** If you'd like a JSON object instead, call `/token.json` - you'll get an object with a single key `token`, with the value of your token.
 
 [Check out a demo](https://codepen.io/companionstudio/pen/xxGyVKN) of these access methods.
 
@@ -57,21 +57,21 @@ The instructions in your new token agent app will provide you with two simple wa
 
 Instagram Token Agent is designed to be configured using Heroku's web UI or CLI. It understands the following environment variables:
 
-| Key  | Description  | Default  |
-|---|---|---|
-| `HIDE_HELP_PAGES` | Set to `true` to turn off the setup pages that aren't needed in production.  | none (Help pages display by default) |
-| `ALLOWED_DOMAINS`  | White-list of the domains that can request the token via JS snippet or JSON object | none (any domain is allowed)  |
-| `REFRESH_MODE`  | How should the refresh schedule work? Currently, only 'cron' is allowed, which refreshes on a set schedule | `cron`  |
-| `REFRESH_FREQUENCY`  | How often should we refresh the token? Currently 'daily', 'weekly', 'monthly' are supported.  | `weekly`  |
-| `JS_CONSTANT_NAME` | Set the name of the constant provided by the JS snippet  | `InstagramToken` |
+| Key                 | Description                                                                                                | Default                              |
+| ------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| `HIDE_HELP_PAGES`   | Set to `true` to turn off the setup pages that aren't needed in production.                                | none (Help pages display by default) |
+| `ALLOWED_DOMAINS`   | White-list of the domains that can request the token via JS snippet or JSON object                         | none (any domain is allowed)         |
+| `REFRESH_MODE`      | How should the refresh schedule work? Currently, only 'cron' is allowed, which refreshes on a set schedule | `cron`                               |
+| `REFRESH_FREQUENCY` | How often should we refresh the token? Currently 'daily', 'weekly', 'monthly' are supported.               | `weekly`                             |
+| `JS_CONSTANT_NAME`  | Set the name of the constant provided by the JS snippet                                                    | `InstagramToken`                     |
 
-To set these options in the Heroku dashboard, click the 'Settings' tab in your app, then _Reveal Config Vars_.  
+To set these options in the Heroku dashboard, click the 'Settings' tab in your app, then _Reveal Config Vars_.
 
 ## API Rate limits
 
 ~~By default, apps using the Instagram Basic Display API are limited to 200 requests per hour, but there's a (relatively simple way to extend that](https://github.com/companionstudio/instagram-token-agent/wiki/Instagram-API-Limits).~~
 
-Basic Display API integrations have a per-user request limit which is unpublished and currently can't be extended. 
+Basic Display API integrations have a per-user request limit which is unpublished and currently can't be extended.
 
 ## What are all the moving parts?
 
@@ -79,11 +79,10 @@ This app is designed to run using free plans and add-ons at Heroku, and be confi
 
 Here are the main parts and what they do:
 
- - **Heroku free dyno:** This serves the requests for tokens. Free dynos are limited in the amount of work they can do per month, but this should be ample for most sites just serving tokens.
- - **Temporize Scheduler:** This service schedules the app to refresh the token with Instagram to keep it working. Currently this happens once a week.
- - **Heroku Postgres:** The database that stores the token value
- - **MemCachier:** This caches the token payloads the agent sends out to keep things fast and take load off of the free dynos.
- 
+- **Heroku free dyno:** This serves the requests for tokens. Free dynos are limited in the amount of work they can do per month, but this should be ample for most sites just serving tokens.
+- **Temporize Scheduler:** This service schedules the app to refresh the token with Instagram to keep it working. Currently this happens once a week.
+- **Heroku Postgres:** The database that stores the token value
+- **MemCachier:** This caches the token payloads the agent sends out to keep things fast and take load off of the free dynos.
 
 ## Privacy considerations
 
@@ -93,34 +92,34 @@ Each installation of the agent is independent and self-contained. There's no 'ph
 
 This is a first cut of this application, and there are still a lot of things to be done:
 
- - Add tests (!)
- - Improve documentation and setup instructions
- - Investigate a simpler scheduling/refresh solution
- - Work out a nice way to trigger the refresh tasks within the app or in heroku
- - ~~Add a switch to turn the 'hello world' pages off in production~~
- - ~~Make the domain whitelist actually do something~~
- - Add some mechanism whereby updating the starting token restarts the process
+- Add tests (!)
+- Improve documentation and setup instructions
+- Investigate a simpler scheduling/refresh solution
+- Work out a nice way to trigger the refresh tasks within the app or in heroku
+- ~~Add a switch to turn the 'hello world' pages off in production~~
+- ~~Make the domain whitelist actually do something~~
+- Add some mechanism whereby updating the starting token restarts the process
 
 ## Docker
+
 Since heroku is suspending the app for policy reasons, an alternative is to deploy the app via docker on any other hosting provider of your choosing. Steps below:
 
-
 1. Create environment and database config files from samples
-    - `cp config/database.yml.sample config/database.yml`
-    - `cp .env.sample .env`
+   - `cp config/database.yml.sample config/database.yml`
+   - `cp .env.sample .env`
 2. Fill out the environment variables in `.env` file
-    - `APP_NAME`: name of the app (ie - instagram-token-agen)
-    - `STARTING_TOKEN`: Your initial Instagram token value, sourced from Facebook's app dashboard.
-    - `APP_URL`: app's url
-    - `DB_USER`: Postgres database user
-    - `DB_PASSWORD`: Postgres database password
-    - `DB_NAME`: Postgres database name
-    - `PORT`: Port on which you want the app to be accessible
-    - `TEMPORIZE_URL`: Since the app currently depends on the temporize service to handle refreshing of the token, this url can be acquired by create an app on heroku (even though it gets suspended) from App settings -> Config Vars
-    - `WEBHOOK_SECRET`: can be acquired from App settings -> Config Vars in Heroku
-3.  Run `docker-compose up -d`
-4.  The app will be accessible at the port# that you specified in the `.env` file
-    - You can additionally use an NGINX Reverse Proxy to handle a domain redirect to the app's port.
+   - `APP_NAME`: name of the app (ie - instagram-token-agent)
+   - `STARTING_TOKEN`: Your initial Instagram token value, sourced from Facebook's app dashboard.
+   - `APP_URL`: app's url
+   - `DB_USER`: Postgres database user
+   - `DB_PASSWORD`: Postgres database password
+   - `DB_NAME`: Postgres database name
+   - `PORT`: Port on which you want the app to be accessible
+   - `TEMPORIZE_URL`: Since the app currently depends on the temporize service to handle refreshing of the token, this url can be acquired by create an app on heroku (even though it gets suspended) from App settings -> Config Vars
+   - `WEBHOOK_SECRET`: can be acquired from App settings -> Config Vars in Heroku
+3. Run `docker-compose up -d`
+4. The app will be accessible at the port# that you specified in the `.env` file
+   - You can additionally use an NGINX Reverse Proxy to handle a domain redirect to the app's port.
 
 ## License
 
