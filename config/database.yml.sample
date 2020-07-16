@@ -11,8 +11,8 @@
 
 default: &default
   host: database
-  user: root
-  password: root
+  user: <%= ENV['DB_USER'] %> 
+  password: <%= ENV['DB_PASSWORD'] %> 
   adapter: postgresql
   encoding: unicode
   port: 5432
