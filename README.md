@@ -109,16 +109,16 @@ Since heroku is suspending the app for policy reasons, an alternative is to depl
     - `cp config/database.yml.sample config/database.yml`
     - `cp .env.sample .env`
 2. Fill out the environment variables in `.env` file
-    - APP_NAME: name of the app (ie - instagram-token-agen)
-    - STARTING_TOKEN: Your initial Instagram token value, sourced from Facebook's app dashboard.
-    - APP_URL: app's url
-    - DB_USER: Postgres database user
-    - DB_PASSWORD: Postgres database password
-    - DB_NAME: Postgres database name
-    - PORT: Port on which you want the app to be accessible
-    - TEMPORIZE_URL: Since the app currently depends on the temporize service to handle refreshing of the token, this url can be acquired by create an app on heroku (even though it gets suspended) from App settings -> Config Vars
-    - WEBHOOK_SECRET: can be acquired from App settings -> Config Vars in Heroku
-3. `docker-compose up -d`
+    - `APP_NAME`: name of the app (ie - instagram-token-agen)
+    - `STARTING_TOKEN`: Your initial Instagram token value, sourced from Facebook's app dashboard.
+    - `APP_URL`: app's url
+    - `DB_USER`: Postgres database user
+    - `DB_PASSWORD`: Postgres database password
+    - `DB_NAME`: Postgres database name
+    - `PORT`: Port on which you want the app to be accessible
+    - `TEMPORIZE_URL`: Since the app currently depends on the temporize service to handle refreshing of the token, this url can be acquired by create an app on heroku (even though it gets suspended) from App settings -> Config Vars
+    - `WEBHOOK_SECRET`: can be acquired from App settings -> Config Vars in Heroku
+3.  Run `docker-compose up -d`
 4.  The app will be accessible at the port# that you specified in the `.env` file
     - You can additionally use an NGINX Reverse Proxy to handle a domain redirect to the app's port.
 
