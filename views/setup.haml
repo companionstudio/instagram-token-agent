@@ -25,11 +25,31 @@
     %li
       Log into your
       %a{href: 'https://dashboard.heroku.com'} Heroku Console.
-    %li Go to your new application, 'Settings'.
     %li
-      Under configuration values, find INSTAGRAM_TOKEN. The value to replace is
-      %code #{settings.default_starting_token}.
-    %li Replace this with the token value from Facebook in step 2.
+      Go to your new application's
+      %a{href: "https://dashboard.heroku.com/apps/#{ENV['APP_NAME']}/settings"} settings page.
+    %li
+      Under configuration values:
+
+      %ul
+        %li
+          - if check_starting_token
+            ✅
+          - else
+            ❌
+          Replace
+          %strong INSTAGRAM_TOKEN
+          with the token value from Facebook in step 2.
+        %li
+          - if check_allowed_domains
+            ✅
+          - else
+            ❌
+          Change
+          %strong ALLOWED_DOMAINS
+          to the domain where you'll display your Instagram content.
+          %span.note Separate multiple domains with spaces.
+
     %li Click save to apply the setting and restart your app.
     %li Reload this page to see a success message!
 

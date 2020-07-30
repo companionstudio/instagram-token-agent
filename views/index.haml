@@ -1,12 +1,22 @@
 %h1 Instagram Token Agent
 
+- unless ENV['ALLOWED_DOMAINS']
+  .all-allowed-notification
+    %strong Heads up!
+    You haven't set the
+    %code ALLOWED_DOMAINS
+    config variable to let the agent know which domains it can serve. Visit your
+    %a{href: 'https://dashboard.heroku.com/apps/companion-token-agent/settings'} Heroku Dashboard
+    or see
+    %a{href: 'https://github.com/companionstudio/instagram-token-agent/wiki/Setting-Config-Vars-on-Heroku'} the wiki for instructions.
+
 .agent-status-display
   %h2
     .ticker
       .a
       .b
       .c
-      
+
     Checking status...
 
   :javascript

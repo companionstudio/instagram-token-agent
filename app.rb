@@ -22,33 +22,33 @@ class App < Sinatra::Base
   # Overall configuration - done here rather than yml files to reduce dependencies
   # -------------------------------------------------
   configure do
-    set :app_name, ENV['APP_NAME']                                              # The app needs to know its own name/url.
+    set :app_name, ENV['APP_NAME']                                                # The app needs to know its own name/url.
     set :app_url, ENV['APP_URL'] || "https://#{settings.app_name}.herokuapp.com"
 
     enable :cross_origin
     disable :show_exceptions
     enable :raise_errors
 
-    set :help_pages,        !(ENV['HIDE_HELP_PAGES']) || false                  # Whether to display the welcome pages or not
-    set :allow_origin,      ENV['ALLOWED_DOMAINS'] || '*' #:any                 # Check for a whitelist of domains, otherwise allow anything
-    set :allow_methods,     [:get, :options]                                    # Only allow GETs and OPTION requests
-    set :allow_credentials, false                                               # We have no need of credentials!
+    set :help_pages,        !(ENV['HIDE_HELP_PAGES']) || false                    # Whether to display the welcome pages or not
+    set :allow_origin,      ENV['ALLOWED_DOMAINS'] ? ENV['ALLOWED_DOMAINS'].split(' ') : settings.app_url # Check for a whitelist of domains, otherwise allow the herokapp domain
+    set :allow_methods,     [:get, :options]                                      # Only allow GETs and OPTION requests
+    set :allow_credentials, false                                                 # We have no need of credentials!
 
-    set :default_starting_token, 'copy_token_here'                              # The 'Deploy to Heroku' button sets this environment value
-    set :js_constant_name, ENV['JS_CONSTANT_NAME'] ||'InstagramToken'           # The name of the constant used in the JS snippet
+    set :default_starting_token, 'copy_token_here'                                # The 'Deploy to Heroku' button sets this environment value
+    set :js_constant_name, ENV['JS_CONSTANT_NAME'] ||'InstagramToken'             # The name of the constant used in the JS snippet
 
     # scheduled mode would be more efficient, but currently doesn't work
     # because Temporize free accounts don't support dates more than 7 days in the future
-    set :token_refresh_mode, ENV['REFRESH_MODE'] || :cron                       # cron | scheduled
-    set :token_expiry_buffer, 2 * 24 * 60 * 60                                  # 2 days before expiry
-    set :token_refresh_frequency, ENV['REFRESH_FREQUENCY'].to_s || :weekly      # daily, weekly, monthly
+    set :token_refresh_mode, ENV['REFRESH_MODE'] || :cron                         # cron | scheduled
+    set :token_expiry_buffer, 2 * 24 * 60 * 60                                    # 2 days before expiry
+    set :token_refresh_frequency, ENV['REFRESH_FREQUENCY'].to_s || :weekly        # daily, weekly, monthly
 
-    set :refresh_endpoint,  'https://graph.instagram.com/refresh_access_token'  # The endpoint to hit to extend the token
-    set :user_endpoint,     'https://graph.instagram.com/me'                    # The endpoint to hit to fetch user profile
-    set :media_endpoint,    'https://graph.instagram.com/me/media'              # The endpoint to hit to fetch the user's media
+    set :refresh_endpoint,  'https://graph.instagram.com/refresh_access_token'    # The endpoint to hit to extend the token
+    set :user_endpoint,     'https://graph.instagram.com/me'                      # The endpoint to hit to fetch user profile
+    set :media_endpoint,    'https://graph.instagram.com/me/media'                # The endpoint to hit to fetch the user's media
 
-    set :refresh_webhook, (ENV['TEMPORIZE_URL'] ? true : false)                 # Check if Temporize is configured
-    set :webhook_secret, ENV['WEBHOOK_SECRET']                                  # The secret value used to sign external, incoming requests
+    set :refresh_webhook, (ENV['TEMPORIZE_URL'] ? true : false)                   # Check if Temporize is configured
+    set :webhook_secret, ENV['WEBHOOK_SECRET']                                    # The secret value used to sign external, incoming requests
   end
 
   # Make sure everything is set up before we try to do anything else
@@ -87,6 +87,10 @@ class App < Sinatra::Base
   get '/setup' do
     app_info
     haml(:setup, layout: :'layouts/default')
+  end
+
+  get '/instafeed' do
+    haml(:instafeed, layout: :'layouts/default')
   end
 
   # -------------------------------------------------
@@ -175,12 +179,14 @@ class App < Sinatra::Base
 
     # Check that the configuration looks right to continue
     def configured?
-      ENV['STARTING_TOKEN'] != settings.default_starting_token and !InstagramTokenAgent::Store.value.nil?
+      return false unless check_allowed_domains
+      return false unless check_starting_token
+      true
     end
 
     # Show the setup screen if we're not yet ready to go.
     def ensure_configuration!
-      halt haml(:setup, :'layouts/default') unless configured?
+      halt haml(:setup, layout: :'layouts/default') unless configured?
     end
 
     # Find the date of the next refresh job
@@ -190,6 +196,14 @@ class App < Sinatra::Base
       else
         nil
       end
+    end
+
+    def check_allowed_domains
+      ENV['ALLOWED_DOMAINS'].present? and !ENV['ALLOWED_DOMAINS'].match(/\*([^\.]|$)/) # Disallow including * in the allow list
+    end
+
+    def check_starting_token
+      ENV['STARTING_TOKEN'] != settings.default_starting_token and InstagramTokenAgent::Store.value.present?
     end
   end
 

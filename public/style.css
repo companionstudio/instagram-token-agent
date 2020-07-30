@@ -81,6 +81,14 @@ ol, ul {
   padding-left: 1rem;
 }
 
+ol ul {
+  margin-top: 0.75rem;
+}
+
+ol ul li{
+  margin-bottom: 0.25rem;
+}
+
 li {
   margin-bottom: 0.75rem;
 }
@@ -183,6 +191,28 @@ span.note {
   padding: 0.5rem 0 0 0;
   position: absolute;
   right: 0;
+}
+
+.all-allowed-notification {
+  background: rgb(180, 49, 49);
+  color: #FFF;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  text-shadow: 0.5px 1px 0.5px rgba(0,0,0, 0.5);
+}
+
+.all-allowed-notification code {
+  background-color: rgb(142, 26, 26);
+  border-radius: 0.25rem;
+  color: rgb(255, 230, 230);
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.2em 0.4em;
+}
+
+.all-allowed-notification a:link,
+.all-allowed-notification a:visited {
+  color: rgb(227, 249, 255)
 }
 
 .credit {

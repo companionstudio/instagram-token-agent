@@ -18,7 +18,7 @@ To begin, you'll need the following:
 
 ## Setting up:
 
-**1.** [Follow steps 1 - 3 here](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started) to create an application on Facebook to connect to Instagram. 
+**1.** [Follow steps 1 - 3 here](https://developers.facebook.com/docs/instagram-basic-display-api/getting-started) to create an application on Facebook to connect to Instagram.
 
 **2.** Use the [User Token Generator](https://developers.facebook.com/docs/instagram-basic-display-api/overview#user-token-generator) to create a starting access token. Copy this token and keep it handy for the next step.
 
@@ -60,7 +60,7 @@ Instagram Token Agent is designed to be configured using Heroku's web UI or CLI.
 | Key  | Description  | Default  |
 |---|---|---|
 | `HIDE_HELP_PAGES` | Set to `true` to turn off the setup pages that aren't needed in production.  | none (Help pages display by default) |
-| `ALLOWED_DOMAINS`  | White-list of the domains that can request the token via JS snippet or JSON object | none (any domain is allowed)  |
+| `ALLOWED_DOMAINS`  | White-list of the domains that can request the token via JS snippet or JSON object | Your app's own herokuapp.com domain  |
 | `REFRESH_MODE`  | How should the refresh schedule work? Currently, only 'cron' is allowed, which refreshes on a set schedule | `cron`  |
 | `REFRESH_FREQUENCY`  | How often should we refresh the token? Currently 'daily', 'weekly', 'monthly' are supported.  | `weekly`  |
 | `JS_CONSTANT_NAME` | Set the name of the constant provided by the JS snippet  | `InstagramToken` |
@@ -71,7 +71,7 @@ To set these options in the Heroku dashboard, click the 'Settings' tab in your a
 
 ~~By default, apps using the Instagram Basic Display API are limited to 200 requests per hour, but there's a (relatively simple way to extend that](https://github.com/companionstudio/instagram-token-agent/wiki/Instagram-API-Limits).~~
 
-Basic Display API integrations have a per-user request limit which is unpublished and currently can't be extended. 
+Basic Display API integrations have a per-user request limit which is unpublished and currently can't be extended.
 
 ## What are all the moving parts?
 
