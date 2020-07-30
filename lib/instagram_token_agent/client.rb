@@ -18,7 +18,7 @@ module InstagramTokenAgent
       response = get(
         config.refresh_endpoint,
         query: query_params(grant_type: 'ig_refresh_token'),
-        headers: {"User-Agent" => "Instagram Token Agent"}
+        headers: {"User-Agent" => "shanidarden.com"}
       )
 
       Store.update(response['access_token'], Time.now + response['expires_in'])
