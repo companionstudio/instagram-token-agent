@@ -149,7 +149,7 @@ class App < Sinatra::Base
   if settings.refresh_webhook?
     post "/hooks/refresh/:signature" do
 
-      client = InstagramTokenAgent::Client.new(app)
+      client = InstagramTokenAgent::Client.new(settings)
       if client.check_signature? params[:signature]
         client.refresh
       else

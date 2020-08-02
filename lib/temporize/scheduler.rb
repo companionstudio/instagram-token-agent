@@ -44,8 +44,7 @@ module Temporize
           '0 0 * * ?'   # Every Sunday
         end
       end)
-
-      Temporize::Scheduler.post("/events/#{schedule}/#{hook_url}", basic_auth: credentials)
+      Temporize::Scheduler.post("/events/#{schedule}/#{hook_url}", basic_auth: credentials).success?
     end
 
     # List all the jobs

@@ -13,8 +13,8 @@ module InstagramTokenAgent
       check_signature == signature
     end
 
+    # Fetch a fresh token from the instagram API
     def refresh
-      # Fetch the latest from the instagram API
       response = get(
         config.refresh_endpoint,
         query: query_params(grant_type: 'ig_refresh_token'),
