@@ -30,7 +30,7 @@ class App < Sinatra::Base
     enable :raise_errors
 
     set :help_pages,        !(ENV['HIDE_HELP_PAGES']) || false                    # Whether to display the welcome pages or not
-    set :allow_origin,      ENV['ALLOWED_DOMAINS'] ? ENV['ALLOWED_DOMAINS'].split(' ') : settings.app_url # Check for a whitelist of domains, otherwise allow the herokapp domain
+    set :allow_origin,      ENV['ALLOWED_DOMAINS'] ? ENV['ALLOWED_DOMAINS'].split(' ').map{|d| "https://#{d}"} : settings.app_url # Check for a whitelist of domains, otherwise allow the herokapp domain
     set :allow_methods,     [:get, :options]                                      # Only allow GETs and OPTION requests
     set :allow_credentials, false                                                 # We have no need of credentials!
 
