@@ -93,6 +93,17 @@ class App < Sinatra::Base
     haml(:instafeed, layout: :'layouts/default')
   end
 
+  # Allow a manual refresh, but only if the previous attempt failed
+  post '/refresh' do
+    if InstagramTokenAgent::Store.success?
+      halt 204
+    else
+      client = InstagramTokenAgent::Client.new(settings)
+      client.refresh
+      redirect '/setup'
+    end
+  end
+
   # -------------------------------------------------
   # The Token API
   # This is a good candidate for a Sinatra namespace, but sinatra-contrib needs updating
@@ -203,7 +214,15 @@ class App < Sinatra::Base
     end
 
     def check_starting_token
-      ENV['STARTING_TOKEN'] != settings.default_starting_token and InstagramTokenAgent::Store.value.present?
+      ENV['STARTING_TOKEN'] != settings.default_starting_token
+    end
+
+    def check_token_status
+      InstagramTokenAgent::Store.success? and InstagramTokenAgent::Store.value.present?
+    end
+
+    def latest_instagram_response
+      JSON.pretty_generate(JSON.parse(InstagramTokenAgent::Store.response_body))
     end
   end
 

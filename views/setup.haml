@@ -38,7 +38,7 @@
           - else
             ❌
           Replace
-          %strong INSTAGRAM_TOKEN
+          %strong STARTING_TOKEN
           with the token value from Facebook in step 2.
         %li
           - if check_allowed_domains
@@ -49,8 +49,24 @@
           %strong ALLOWED_DOMAINS
           to the domain where you'll display your Instagram content.
           %span.note Separate multiple domains with spaces.
+        %li
+          - if check_starting_token and check_token_status
+            ✅
+            Token retrieved from Instagram.
+          - else
+            ❌
+            There was an error refreshing the latest token.
+            The response from Instagram is shown below:
+            %pre.snippet
+              %code= latest_instagram_response
+
+            %form{action: '/refresh', method: 'post'}
+              %button{type: 'submit'} Fetch now
 
     %li Click save to apply the setting and restart your app.
     %li Reload this page to see a success message!
 
-  %p You can see these instructions at any time by visiting '/help'.
+  %p
+    You can see these instructions at any time by visiting
+    %a{href: '/setup'} /setup
+    \.
