@@ -218,7 +218,7 @@ class App < Sinatra::Base
     end
 
     def check_token_status
-      InstagramTokenAgent::Store.success? and InstagramTokenAgent::Store.value.present?
+      InstagramTokenAgent::Store.success and InstagramTokenAgent::Store.value.present?
     end
 
     def latest_instagram_response
