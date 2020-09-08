@@ -141,6 +141,14 @@ pre.snippet {
   width: 100%;
 }
 
+
+pre.snippet code{
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+
 @media (max-width: 500px) {
   pre.snippet {
     max-width: 80vw;
