@@ -18,6 +18,10 @@
       "value": "copy_app_name_here",
       "description": "Copy the name you chose for your app here (so the app can know its own name)."
     },
+    "ALLOWED_DOMAINS": {
+      "value": "yourwebsite.com",
+      "description": "The domains you want to access your token from (separate with spaces)."
+    },
     "WEBHOOK_SECRET": {
       "generator": "secret",
       "description": "Used to sign webhook requests coming in from the Temporize scheduling service."

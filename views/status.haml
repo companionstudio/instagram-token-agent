@@ -5,9 +5,21 @@
       %figcaption A recent post by @#{@client.username}
 
     .setup-status-detail
-      %h2
-        🎉 The token agent is set up and ready to provide tokens for
-        %code @#{@client.username}.
+      - if check_starting_token and check_token_status
+        %h2
+          🎉 The token agent is set up and ready to provide tokens for
+          %code @#{@client.username}.
+      - else
+        %h2
+          ❌
+          There was an error fetching the token.
+          The response from Instagram is shown below:
+
+        %pre.snippet
+          %code= latest_instagram_response
+
+        %form{action: '/refresh', method: 'post'}
+          %button{type: 'submit'} Fetch now
 
       - if settings.refresh_webhook?
         - if next_refresh_date

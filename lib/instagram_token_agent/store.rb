@@ -14,9 +14,11 @@ module InstagramTokenAgent
     #
     # @return Proc
     def self.data
-      row = execute('SELECT value, expires_at, created_at FROM tokens LIMIT 1').to_a[0]
+      row = execute('SELECT value, expires_at, created_at, success, response_body FROM tokens LIMIT 1').to_a[0]
       @data ||= OpenStruct.new({
         value: row['value'],
+        success: row['success'],
+        response_body: row['response_body'],
         expires: row['expires_at'],
         created: row['created_at']
       })
@@ -25,8 +27,8 @@ module InstagramTokenAgent
     # Update the token value in the store
     # This assumes there's only ever a single row in the table
     # The initial insert is done via the setup task.
-    def self.update(value, expires)
-      execute('UPDATE tokens SET value = $1, expires_at = $2', [value, expires])
+    def self.update(value, expires, success = true, response_body = nil)
+      execute('UPDATE tokens SET value = $1, expires_at = $2, success = $3, response_body = $4', [value, expires, success, response_body])
     end
 
     #Accessors for the token data
@@ -36,6 +38,14 @@ module InstagramTokenAgent
 
     def self.expires
       data.expires
+    end
+
+    def self.success?
+      data.success == true
+    end
+
+    def self.response_body
+      data.response_body
     end
 
     def self.created
