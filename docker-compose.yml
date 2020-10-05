@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+
+  ruby:
+    build:
+      context: ./
+      dockerfile: ./docker/ruby/Dockerfile
+    container_name: ruby
+    restart: always
+    environment:
+      APP_NAME: ${APP_NAME}
+      STARTING_TOKEN: ${STARTING_TOKEN}
+      APP_URL: ${APP_URL}
+      PORT: ${PORT}
+      RACK_ENV: ${RACK_ENV}
+      TEMPORIZE_URL: ${TEMPORIZE_URL}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET}
+    depends_on:
+      - database
+    ports:
+      - ${PORT}:${PORT}
+    stdin_open: true
+    tty: true

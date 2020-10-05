@@ -4,3 +4,5 @@
 tmp/*
 config/database.yml
 *.db
+
+.env

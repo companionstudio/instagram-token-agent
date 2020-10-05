@@ -1,0 +1,31 @@
+# Provide the DB connection params for your environments.
+# On Heroku, these params are taken from the environment, and this file is not used
+#
+# Valid keys are:
+# - host
+# - port
+# - options
+# - dbname
+# - user
+# - password
+
+default: &default
+  host: database
+  user: <%= ENV['DB_USER'] %> 
+  password: <%= ENV['DB_PASSWORD'] %> 
+  adapter: postgresql
+  encoding: unicode
+  port: 5432
+  pool: 5
+
+development:
+  <<: *default
+  dbname: instagram-token-agent
+
+test:
+  <<: *default
+  dbname: instagram-token-agent-test
+
+production:
+  <<: *default
+  dbname: instagram-token-agent
