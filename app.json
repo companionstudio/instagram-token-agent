@@ -5,7 +5,7 @@
   "logo": "https://raw.githubusercontent.com/companionstudio/instagram-token-agent/master/public/logo.svg?sanitize=true",
   "keywords": ["instagram", "token", "basic-display-api", "instafeed"],
   "addons": [
-    "temporize:developer",
+    "temporize:professional",
     "heroku-postgresql:hobby-dev",
     "memcachier:dev"
   ],
