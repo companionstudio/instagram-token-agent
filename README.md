@@ -24,7 +24,7 @@ To begin, you'll need the following:
 
 **3.** Click this handy 'Deploy' button:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/companionstudio/instagram-token-agent)
 
 **4.** On the page that follows, fill in the following values:
 
