@@ -2,8 +2,8 @@ source "https://rubygems.org"
 
 ruby "2.6.6"
 
-gem 'sinatra',                  '~> 2.0', '>= 2.0.8.1'
-gem 'sinatra-contrib',          '~> 2.0', '>= 2.0.8.1'
+gem 'sinatra',                  '~> 2.2'
+gem 'sinatra-contrib',          '~> 2.2'
 gem 'sinatra-cross_origin',     '~> 0.4.0'
 gem 'rake',                     '~> 13.0', '>= 13.0.1'
 gem 'haml',                     '~> 5.0', '>= 5.1.2'
