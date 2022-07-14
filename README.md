@@ -43,6 +43,13 @@ Everything else can be left as default.
 
 The deployment process can take a minute or so. Once complete, you'll see a _View_ button to visit your new application. The following setup pages include instructions on how to use your new tokens.
 
+**6.** Configure Heroku Scheduler
+
+ Once the app is deployed,
+ - go to your app Heroku dashboard and open the Heroku Scheduler add-on
+ - _Add Job__ with Run Command defined to `rake refresh` scheduled everyday
+ - Then __Save Job__
+
 ## Using the token in your site:
 
 The instructions in your new token agent app will provide you with two simple ways to access your token value from your site:
@@ -80,7 +87,7 @@ This app is designed to run using free plans and add-ons at Heroku, and be confi
 Here are the main parts and what they do:
 
  - **Heroku free dyno:** This serves the requests for tokens. Free dynos are limited in the amount of work they can do per month, but this should be ample for most sites just serving tokens.
- - **Temporize Scheduler:** This service schedules the app to refresh the token with Instagram to keep it working. Currently this happens once a week.
+ - **Heroku Scheduler:** This service schedules the app to refresh the token with Instagram to keep it working.
  - **Heroku Postgres:** The database that stores the token value
  - **MemCachier:** This caches the token payloads the agent sends out to keep things fast and take load off of the free dynos.
 
