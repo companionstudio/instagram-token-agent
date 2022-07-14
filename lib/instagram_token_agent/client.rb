@@ -8,11 +8,6 @@ module InstagramTokenAgent
       @config = settings
     end
 
-    # Does the provided signature match?
-    def check_signature?(check_signature)
-      check_signature == signature
-    end
-
     # Fetch a fresh token from the instagram API
     #
     # @return Boolean indicating success or failure
@@ -48,13 +43,6 @@ module InstagramTokenAgent
       else
         nil
       end
-    end
-
-    # The HMAC'd secret + initial token value
-    # It would be better to hash the current token value, but this won't work with recurring jobs, since
-    # the value needs to stay consistent.
-    def signature
-      OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), config.webhook_secret, ENV['STARTING_TOKEN'])
     end
 
     private

@@ -37,17 +37,11 @@ class App < Sinatra::Base
     set :default_starting_token, 'copy_token_here'                                # The 'Deploy to Heroku' button sets this environment value
     set :js_constant_name, ENV['JS_CONSTANT_NAME'] ||'InstagramToken'             # The name of the constant used in the JS snippet
 
-    # scheduled mode would be more efficient, but currently doesn't work
-    # because Temporize free accounts don't support dates more than 7 days in the future
-    set :token_refresh_mode, ENV['REFRESH_MODE'] || :cron                         # cron | scheduled
     set :token_expiry_buffer, 2 * 24 * 60 * 60                                    # 2 days before expiry
-    set :token_refresh_frequency, ENV['REFRESH_FREQUENCY'].to_s || :weekly        # daily, weekly, monthly
 
     set :refresh_endpoint,  'https://graph.instagram.com/refresh_access_token'    # The endpoint to hit to extend the token
     set :user_endpoint,     'https://graph.instagram.com/me'                      # The endpoint to hit to fetch user profile
     set :media_endpoint,    'https://graph.instagram.com/me/media'                # The endpoint to hit to fetch the user's media
-
-    set :webhook_secret, ENV['WEBHOOK_SECRET']                                    # The secret value used to sign external, incoming requests
   end
 
   # Make sure everything is set up before we try to do anything else
