@@ -47,7 +47,6 @@ class App < Sinatra::Base
     set :user_endpoint,     'https://graph.instagram.com/me'                      # The endpoint to hit to fetch user profile
     set :media_endpoint,    'https://graph.instagram.com/me/media'                # The endpoint to hit to fetch the user's media
 
-    set :refresh_webhook, (ENV['TEMPORIZE_URL'] ? true : false)                   # Check if Temporize is configured
     set :webhook_secret, ENV['WEBHOOK_SECRET']                                    # The secret value used to sign external, incoming requests
   end
 
@@ -152,24 +151,6 @@ class App < Sinatra::Base
   end
 
   # -------------------------------------------------
-  # Webhook endpoints
-  #
-  # Used by the Temporize scheduling service to trigger a refresh externally
-  # -------------------------------------------------
-
-  if settings.refresh_webhook?
-    post "/hooks/refresh/:signature" do
-
-      client = InstagramTokenAgent::Client.new(settings)
-      if client.check_signature? params[:signature]
-        client.refresh
-      else
-        halt 403
-      end
-    end
-  end
-
-  # -------------------------------------------------
   # Error pages
   # -------------------------------------------------
 
@@ -200,15 +181,6 @@ class App < Sinatra::Base
       halt haml(:setup, layout: :'layouts/default') unless configured?
     end
 
-    # Find the date of the next refresh job
-    def next_refresh_date
-      if next_job = temporize_client.next_job
-        DateTime.parse(next_job['next']).strftime('%b %-d %Y, %-l:%M%P %Z')
-      else
-        nil
-      end
-    end
-
     def check_allowed_domains
       ENV['ALLOWED_DOMAINS'].present? and !ENV['ALLOWED_DOMAINS'].match(/\*([^\.]|$)/) # Disallow including * in the allow list
     end
@@ -225,21 +197,4 @@ class App < Sinatra::Base
       JSON.pretty_generate(JSON.parse(InstagramTokenAgent::Store.response_body))
     end
   end
-
-
-  private
-
-
-  # Check that a job has been scheduled
-  def check_refresh_job
-    return unless temporize_client.jobs.empty?
-
-    temporize_client.update!
-  end
-
-  def temporize_client
-    raise 'Refresh webhooks are not enabled' unless settings.refresh_webhook?
-    @temporize_client ||= Temporize::Scheduler.new(settings)
-  end
-
 end

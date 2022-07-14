@@ -1,7 +1,6 @@
 require_relative 'instagram_token_agent/version'
 require_relative 'instagram_token_agent/store'
 require_relative 'instagram_token_agent/client'
-require_relative 'temporize/scheduler'
 
 module InstagramTokenAgent
   module AppInfo

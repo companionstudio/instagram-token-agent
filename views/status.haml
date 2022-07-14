@@ -21,14 +21,6 @@
         %form{action: '/refresh', method: 'post'}
           %button{type: 'submit'} Fetch now
 
-      - if settings.refresh_webhook?
-        - if next_refresh_date
-          %p 🗓 Temporize is scheduled to refresh this token on #{next_refresh_date}.
-        - else
-          %p ⚠️ Temporize is set up, but no refresh task is scheduled. Check your Temporize dashboard for details.
-      - else
-        %p ⚠️ The refresh webhook service is not configured correctly. Check your Heroku add-ons dashboard.
-
 - else
   .setup-status-error
     %h2 ⚠️ The token agent isn't connected to a valid Instagram user account.
