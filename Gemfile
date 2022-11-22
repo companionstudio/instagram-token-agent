@@ -10,7 +10,7 @@ gem 'haml',                     '~> 5.0', '>= 5.1.2'
 gem 'httparty',                 '~> 0.18.0'
 
 gem 'memcachier',               '~> 0.0.2'
-gem 'dalli',                    '~> 2.7', '>= 2.7.10'
+gem 'dalli',                    '~> 3.2'
 gem 'rack-cache',               '~> 1.11'
 gem 'rack-cors',                '~> 1.1.1'
 
