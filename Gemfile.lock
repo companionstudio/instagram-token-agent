@@ -27,16 +27,14 @@ GEM
     haml (5.1.2)
       temple (>= 0.8.0)
       tilt
-    httparty (0.18.1)
-      mime-types (~> 3.0)
+    httparty (0.21.0)
+      mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     memcachier (0.0.2)
     method_source (1.0.0)
-    mime-types (3.3.1)
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.0512)
+    mini_mime (1.1.2)
     minitest (5.14.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
@@ -89,7 +87,7 @@ DEPENDENCIES
   dalli (~> 2.7, >= 2.7.10)
   dotenv
   haml (~> 5.0, >= 5.1.2)
-  httparty (~> 0.18.0)
+  httparty (~> 0.21.0)
   memcachier (~> 0.0.2)
   pg (~> 1.2, >= 1.2.3)
   pry
